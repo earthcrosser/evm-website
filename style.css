@@ -1,27 +1,89 @@
+/* Futuristic Retro Theme for Extreme Visual Media */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap');
+
+:root {
+  --primary: #ff6b21;
+  --secondary: #00ffff;
+  --accent: #ff2975;
+  --dark: #0a0a0a;
+  --space-blue: #0f1b2d;
+  --text: #f8f8f2;
+  --grid-line: rgba(0, 255, 255, 0.1);
+  --glow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-family: sans-serif;
-  max-width: 800px;
-  margin: auto;
+  font-family: 'Exo 2', sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 2em;
-  background-color: #0a0a0a;
-  color: #f8f8f2;
+  background-color: var(--space-blue);
+  background-image:
+    linear-gradient(0deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 30px 30px;
+  color: var(--text);
+  line-height: 1.6;
 }
 
-.logo {
-  width: 128px;
-  border-radius: 50%;
+h1, h2, h3, nav {
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
 }
 
-header, footer {
+h1 {
+  font-size: 2.5rem;
+  margin: 0.5em 0;
+  color: var(--primary);
+  text-shadow: 0 0 15px rgba(255, 107, 33, 0.5);
+}
+
+h2 {
+  position: relative;
+  font-size: 1.8rem;
+  margin: 1em 0;
+  padding-bottom: 0.5em;
+  color: var(--secondary);
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--secondary), transparent);
+}
+
+h3 {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin-bottom: 0.5em;
+}
+
+a {
+  color: var(--secondary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent);
+  text-shadow: var(--glow);
+}
+
+/* Header */
+header {
   text-align: center;
-}
-
-section {
-  margin-top: 2em;
-}
-
-.projects .project {
-  margin-bottom: 1.5em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid var(--grid-line);
 }
 
 .banner {
@@ -29,4 +91,118 @@ section {
   height: auto;
   border-radius: 12px;
   margin-bottom: 1em;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation */
+.main-nav {
+  margin: 2em 0;
+}
+
+.main-nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  gap: 3em;
+}
+
+.main-nav a {
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.5em 1em;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.main-nav a:hover {
+  border-color: var(--secondary);
+  box-shadow: var(--glow);
+}
+
+/* Sections */
+section {
+  margin: 3em 0;
+  padding: 1em;
+  background-color: rgba(15, 27, 45, 0.7);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary);
+}
+
+.about-section p {
+  margin-bottom: 1em;
+}
+
+/* Projects */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2em;
+  margin-top: 2em;
+}
+
+.project {
+  padding: 1.5em;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+}
+
+.project.featured {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(255, 107, 33, 0.1), rgba(0, 0, 0, 0.3));
+  border: 1px solid rgba(255, 107, 33, 0.3);
+}
+
+.project-link {
+  display: inline-block;
+  margin-top: 1em;
+  padding: 0.5em 1em;
+  background-color: var(--primary);
+  color: var(--dark);
+  font-weight: bold;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.project-link:hover {
+  background-color: var(--secondary);
+  color: var(--dark);
+  box-shadow: 0 0 10px var(--secondary);
+}
+
+/* Contact */
+.contact-section {
+  text-align: center;
+}
+
+/* Footer */
+footer {
+  margin-top: 4em;
+  padding-top: 2em;
+  text-align: center;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--grid-line);
+  color: rgba(248, 248, 242, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    padding: 1em;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+  }
+
+  .projects {
+    grid-template-columns: 1fr;
+  }
 }

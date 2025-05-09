@@ -3,28 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Extreme Visual Media</title>
+  <title>Extreme Visual Media | Unity Development</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <img src="evm-banner.png" alt="EVM Banner" class="banner"/>
     <h1>Extreme Visual Media</h1>
-    <p>Retro-inspired tools and multiplayer systems built with Unity.</p>
+    <p>Pioneering Unity development with futuristic solutions for tomorrow's challenges</p>
   </header>
 
+  <nav class="main-nav">
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
   <main>
-    <section>
-      <h2>Work Samples</h2>
+    <section id="about" class="about-section">
+      <h2>About Us</h2>
+      <p>Extreme Visual Media specializes in cutting-edge Unity development, creating immersive experiences and powerful tools that push the boundaries of what's possible. Our team combines technical expertise with creative vision to deliver solutions that are both innovative and practical.</p>
+      <p>Whether you're looking for game development, simulation tools, or custom Unity plugins, our expertise in Unity3D enables us to turn your most ambitious ideas into reality.</p>
+    </section>
+
+    <section id="projects" class="projects-section">
+      <h2>Our Projects</h2>
       <div class="projects">
+        <div class="project featured">
+          <h3>NASA SDK for Unity</h3>
+          <p>A fully featured NASA Plugin for Unity3D that brings the wonders of space exploration to your projects. This comprehensive toolkit provides access to NASA data, imagery, and simulation capabilities, allowing developers to create accurate space-themed applications and educational tools.</p>
+          <a href="#nasa-sdk" class="project-link">Learn more</a>
+        </div>
+
         <div class="project">
           <h3>Earth Vs Mars</h3>
           <p>A retro-style space game that inspired our name. Built in Unity with custom shaders and enemy AI.</p>
         </div>
+
         <div class="project">
           <h3>Smartphone Controller Plugin</h3>
           <p>Connect up to six mobile devices as controllers using WebGL and Unity Input System.</p>
         </div>
+
         <div class="project">
           <h3>Mubert Unity SDK</h3>
           <p>Adaptive background music powered by AI. A seamless plugin for Unity games and apps.</p>
@@ -32,8 +54,9 @@
       </div>
     </section>
 
-    <section>
+    <section id="contact" class="contact-section">
       <h2>Contact</h2>
+      <p>Ready to elevate your project with our Unity expertise?</p>
       <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
     </section>
   </main>
