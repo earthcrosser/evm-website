@@ -1,0 +1,25 @@
+body {
+  font-family: sans-serif;
+  max-width: 800px;
+  margin: auto;
+  padding: 2em;
+  background-color: #0a0a0a;
+  color: #f8f8f2;
+}
+
+.logo {
+  width: 128px;
+  border-radius: 50%;
+}
+
+header, footer {
+  text-align: center;
+}
+
+section {
+  margin-top: 2em;
+}
+
+.projects .project {
+  margin-bottom: 1.5em;
+}
