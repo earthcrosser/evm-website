@@ -23,3 +23,10 @@ section {
 .projects .project {
   margin-bottom: 1.5em;
 }
+
+.banner {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 1em;
+}
