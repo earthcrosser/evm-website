@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>API Reference - NASA SDK for Unity | Extreme Visual Media</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+  <header>
+    <a href="../../index.html">
+      <img src="../../evm-banner.png" alt="EVM Banner" class="banner"/>
+    </a>
+    <h1>NASA SDK for Unity</h1>
+    <p>Documentation and resources for the NASA Open Data SDK</p>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="quickstart.html">Quick Start</a></li>
+      <li><a href="configuration.html">Configuration</a></li>
+      <li><a href="api-reference.html">API Reference</a></li>
+      <li><a href="samples.html">Samples</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="docs-content">
+      <h1>API Reference</h1>
+      
+      <p>This page provides a reference for the main classes and methods in the NASA SDK for Unity.</p>
+      
+      <h2>Core Classes</h2>
+      
+      <h3>NasaClient</h3>
+      <p>The main client class for interacting with NASA APIs.</p>
+      
+      <h4>Constructor</h4>
+<pre><code>// Create with a NasaConfig ScriptableObject
+public NasaClient(NasaConfig config)
+
+// Create with a configuration provider interface
+public NasaClient(INasaConfigProvider configProvider)</code></pre>
+      
+      <h4>Methods</h4>
+      <p>Astronomy Picture of the Day (APOD)</p>
+<pre><code>// Get today's APOD
+public Task<ApodData> GetApodAsync()
+
+// Get APOD for a specific date
+public Task<ApodData> GetApodAsync(DateTime date)
+
+// Get multiple APODs for a date range
+public Task<List<ApodData>> GetApodAsync(DateTime startDate, DateTime endDate)
+
+// Get a random APOD
+public Task<List<ApodData>> GetRandomApodAsync(int count = 1)
+
+// Download the image for an APOD
+public Task<Texture2D> GetApodTextureAsync(ApodData apod)</code></pre>
+      
+      <p>Mars Rover Photos</p>
+<pre><code>// Get photos from a specific rover, sol, and camera
+public Task<List<MarsRoverPhotoData>> GetMarsRoverPhotosAsync(
+    MarsRover rover, 
+    int sol, 
+    MarsRoverCamera? camera = null)
+
+// Get photos from a specific rover, Earth date, and camera
+public Task<List<MarsRoverPhotoData>> GetMarsRoverPhotosAsync(
+    MarsRover rover, 
+    DateTime earthDate, 
+    MarsRoverCamera? camera = null)
+
+// Get the latest photos from a rover
+public Task<List<MarsRoverPhotoData>> GetLatestMarsRoverPhotosAsync(
+    MarsRover rover, 
+    MarsRoverCamera? camera = null)
+
+// Download the image for a Mars rover photo
+public Task<Texture2D> GetMarsRoverPhotoTextureAsync(MarsRoverPhotoData photo)</code></pre>
+
+      <p>Near Earth Objects (NEO)</p>
+<pre><code>// Get near Earth objects for a date range (max 7 days)
+public Task<NeoFeedData> GetNeoFeedAsync(DateTime startDate, DateTime endDate)
+
+// Get a specific asteroid by ID
+public Task<NeoObjectData> GetNeoAsync(string asteroidId)</code></pre>
+
+      <p>Earth API</p>
+<pre><code>// Get Earth imagery for a specific location
+public Task<EarthImageryData> GetEarthImageryAsync(
+    float lat, 
+    float lon, 
+    float? dim = null, 
+    DateTime? date = null)
+
+// Download the Earth imagery as a texture
+public Task<Texture2D> GetEarthImageryTextureAsync(EarthImageryData imagery)
+
+// Get available Earth imagery dates for a location
+public Task<List<DateTime>> GetEarthImageryDatesAsync(float lat, float lon)</code></pre>
+
+      <p>EPIC (Earth Polychromatic Imaging Camera)</p>
+<pre><code>// Get natural color EPIC images for a date
+public Task<List<EpicImageData>> GetEpicNaturalAsync(DateTime? date = null)
+
+// Get enhanced color EPIC images for a date
+public Task<List<EpicImageData>> GetEpicEnhancedAsync(DateTime? date = null)
+
+// Get available EPIC image dates
+public Task<List<DateTime>> GetEpicDatesAsync(EpicCollection collection = EpicCollection.Natural)
+
+// Download the EPIC image as a texture
+public Task<Texture2D> GetEpicImageTextureAsync(EpicImageData image)</code></pre>
+
+      <h3>Data Models</h3>
+      
+      <p>The SDK uses the following data models to represent API responses:</p>
+      
+      <ul>
+        <li><code>ApodData</code> - Astronomy Picture of the Day data</li>
+        <li><code>MarsRoverPhotoData</code> - Mars rover photo data</li>
+        <li><code>NeoFeedData</code> - Near Earth object feed data</li>
+        <li><code>NeoObjectData</code> - Individual asteroid data</li>
+        <li><code>EarthImageryData</code> - Earth imagery data</li>
+        <li><code>EpicImageData</code> - EPIC image data</li>
+      </ul>
+      
+      <h3>Enums</h3>
+      
+      <h4>MarsRover</h4>
+<pre><code>public enum MarsRover
+{
+    Curiosity,
+    Opportunity,
+    Spirit,
+    Perseverance
+}</code></pre>
+
+      <h4>MarsRoverCamera</h4>
+<pre><code>public enum MarsRoverCamera
+{
+    FHAZ,  // Front Hazard Avoidance Camera
+    RHAZ,  // Rear Hazard Avoidance Camera
+    MAST,  // Mast Camera
+    CHEMCAM, // Chemistry and Camera Complex
+    MAHLI, // Mars Hand Lens Imager
+    MARDI, // Mars Descent Imager
+    NAVCAM, // Navigation Camera
+    PANCAM, // Panoramic Camera
+    MINITES, // Miniature Thermal Emission Spectrometer
+    // Perseverance cameras
+    EDL_RUCAM, // Rover Up-Look Camera
+    EDL_RDCAM, // Rover Down-Look Camera
+    EDL_DDCAM, // Descent Stage Down-Look Camera
+    EDL_PUCAM1, // Parachute Up-Look Camera A
+    EDL_PUCAM2, // Parachute Up-Look Camera B
+    NAVCAM_LEFT, // Navigation Camera - Left
+    NAVCAM_RIGHT, // Navigation Camera - Right
+    MCZ_RIGHT, // Mastcam-Z Right
+    MCZ_LEFT, // Mastcam-Z Left
+    FRONT_HAZCAM_LEFT_A, // Front Hazard Avoidance Camera - Left
+    FRONT_HAZCAM_RIGHT_A, // Front Hazard Avoidance Camera - Right
+    REAR_HAZCAM_LEFT, // Rear Hazard Avoidance Camera - Left
+    REAR_HAZCAM_RIGHT, // Rear Hazard Avoidance Camera - Right
+    SKYCAM, // MEDA Skycam
+    SHERLOC_WATSON // SHERLOC WATSON Camera
+}</code></pre>
+
+      <h4>EpicCollection</h4>
+<pre><code>public enum EpicCollection
+{
+    Natural,
+    Enhanced
+}</code></pre>
+      
+      <h3>Exceptions</h3>
+      
+      <p>The SDK uses custom exceptions to provide detailed error information:</p>
+      
+<pre><code>// Base exception for all NASA API errors
+public class NasaApiException : Exception
+
+// Specific exception types
+public class NasaApiRateLimitException : NasaApiException
+public class NasaApiKeyInvalidException : NasaApiException
+public class NasaApiTimeoutException : NasaApiException
+public class NasaApiNotAvailableException : NasaApiException</code></pre>
+      
+      <a href="#top" class="back-to-top">Back to Top</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Extreme Visual Media</p>
+  </footer>
+</body>
+</html>

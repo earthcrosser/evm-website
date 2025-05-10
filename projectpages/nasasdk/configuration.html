@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Configuration - NASA SDK for Unity | Extreme Visual Media</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+  <header>
+    <a href="../../index.html">
+      <img src="../../evm-banner.png" alt="EVM Banner" class="banner"/>
+    </a>
+    <h1>NASA SDK for Unity</h1>
+    <p>Documentation and resources for the NASA Open Data SDK</p>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="quickstart.html">Quick Start</a></li>
+      <li><a href="configuration.html">Configuration</a></li>
+      <li><a href="api-reference.html">API Reference</a></li>
+      <li><a href="samples.html">Samples</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="docs-content">
+      <h1>Configuration Guide</h1>
+      
+      <p>This guide provides detailed information about configuring the NASA SDK for Unity to meet your specific project needs.</p>
+      
+      <h2>The NasaConfig ScriptableObject</h2>
+      
+      <p>The NASA SDK uses a central configuration asset to manage all settings. This approach makes it easy to configure the SDK and share settings across your project.</p>
+      
+      <h3>Creating a Configuration Asset</h3>
+      
+      <ol>
+        <li>In Unity, right-click in your Project window</li>
+        <li>Select <strong>Create > NASA > NasaConfig</strong></li>
+        <li>Name the asset (e.g., "NasaSDKConfig")</li>
+      </ol>
+      
+      <h3>Configuration Settings</h3>
+      
+      <p>The NasaConfig asset includes the following settings:</p>
+      
+      <h4>API Key</h4>
+      <p>Your NASA API key. Required for all API requests.</p>
+      <ul>
+        <li>For testing, you can use <code>DEMO_KEY</code>, but it has strict rate limits (hourly & daily)</li>
+        <li>Get your free API key at <a href="https://api.nasa.gov/">api.nasa.gov</a></li>
+      </ul>
+      
+      <h4>Cache Settings</h4>
+      <p>Configure how the SDK caches data to reduce API calls and improve performance:</p>
+      <ul>
+        <li><strong>Enable Disk Cache</strong>: Toggle disk caching on/off</li>
+        <li><strong>Cache Directory</strong>: Specify a custom cache folder or use the default</li>
+        <li><strong>Cache Expiration</strong>: Set how long items remain in cache (in hours)</li>
+        <li><strong>Max Cache Size</strong>: Limit the total cache size (in MB)</li>
+      </ul>
+      
+      <h4>Network Settings</h4>
+      <ul>
+        <li><strong>Timeout</strong>: API request timeout in seconds</li>
+        <li><strong>Retry Count</strong>: Number of times to retry failed requests</li>
+        <li><strong>Rate Limiting</strong>: Enable smart rate limit handling</li>
+      </ul>
+      
+      <h4>Logging</h4>
+      <ul>
+        <li><strong>Verbose Logging</strong>: Toggle detailed logs for debugging</li>
+        <li><strong>Log Level</strong>: Set minimum log level (Error, Warning, Info, Debug)</li>
+      </ul>
+      
+      <h2>Usage with Multiple Scenes</h2>
+      
+      <p>We recommend creating a single NasaConfig asset and either:</p>
+      <ul>
+        <li>Reference it directly in your scenes</li>
+        <li>Create a service locator or singleton to provide access to the configured NasaClient</li>
+      </ul>
+      
+      <h2>Runtime Configuration</h2>
+      
+      <p>While most settings are configured via the ScriptableObject, you can also modify some settings at runtime:</p>
+      
+<pre><code>// Get a reference to your config asset
+NasaConfig config = Resources.Load<NasaConfig>("NasaSDKConfig");
+
+// Modify settings
+config.EnableDiskCache = true;
+config.CacheExpirationHours = 24;
+
+// Create client with updated config
+NasaClient client = new NasaClient(config);</code></pre>
+      
+      <h2>Advanced: Configuration Provider</h2>
+      
+      <p>For advanced use cases, you can implement the INasaConfigProvider interface to supply configuration dynamically:</p>
+      
+<pre><code>public class MyConfigProvider : MonoBehaviour, INasaConfigProvider
+{
+    private NasaConfig _dynamicConfig;
+    
+    public NasaConfig GetConfig()
+    {
+        // Create or modify config based on runtime conditions
+        if (_dynamicConfig == null)
+        {
+            _dynamicConfig = ScriptableObject.CreateInstance<NasaConfig>();
+            _dynamicConfig.ApiKey = PlayerPrefs.GetString("NasaApiKey");
+            // Set other properties
+        }
+        
+        return _dynamicConfig;
+    }
+}</code></pre>
+
+      <p>Then use your provider with the client:</p>
+      
+<pre><code>var provider = GetComponent<MyConfigProvider>();
+var client = new NasaClient(provider);</code></pre>
+      
+      <a href="#top" class="back-to-top">Back to Top</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Extreme Visual Media</p>
+  </footer>
+</body>
+</html>

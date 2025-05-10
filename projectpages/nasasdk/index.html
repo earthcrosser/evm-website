@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NASA SDK for Unity | Extreme Visual Media</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+  <header>
+    <a href="../../index.html">
+      <img src="../../evm-banner.png" alt="EVM Banner" class="banner"/>
+    </a>
+    <h1>NASA SDK for Unity</h1>
+    <p>Documentation and resources for the NASA Open Data SDK</p>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="quickstart.html">Quick Start</a></li>
+      <li><a href="configuration.html">Configuration</a></li>
+      <li><a href="api-reference.html">API Reference</a></li>
+      <li><a href="samples.html">Samples</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="docs-content">
+      <h1>NASA APIs for Unity</h1>
+      
+      <p>Welcome to the NASA APIs for Unity SDK documentation! This SDK provides a comprehensive, production-quality interface to NASA's rich collection of public APIs. Fetch stunning astronomy pictures, browse Martian landscapes, track near-Earth asteroids, and more, all directly within your Unity applications at runtime.</p>
+      
+      <h2>Overview</h2>
+      
+      <p>The NASA SDK provides an easy-to-use interface for accessing NASA's APIs, with features like:</p>
+      
+      <ul>
+        <li>Easy configuration through a <code>NasaConfig</code> ScriptableObject</li>
+        <li>Asynchronous API access using Tasks</li>
+        <li>Built-in caching to reduce API calls</li>
+        <li>Support for multiple NASA APIs, including:
+          <ul>
+            <li>Astronomy Picture of the Day (APOD)</li>
+            <li>Mars Rover Photos</li>
+            <li>Earth Imagery</li>
+            <li>Near Earth Objects (NeoWs)</li>
+            <li>EPIC (Earth Polychromatic Imaging Camera)</li>
+          </ul>
+        </li>
+        <li>Editor tools for previewing API data</li>
+        <li>Sample scenes to help you get started</li>
+      </ul>
+      
+      <h2>Getting Started</h2>
+      
+      <ul>
+        <li><a href="quickstart.html">Quick Start Guide</a> - Get up and running in just a few minutes</li>
+        <li><a href="configuration.html">Configuration</a> - Detailed information on configuring the SDK</li>
+        <li><a href="api-reference.html">API Reference</a> - Reference documentation for classes and methods</li>
+        <li><a href="samples.html">Samples</a> - Sample scenes included with the SDK</li>
+      </ul>
+      
+      <h2>Basic Usage</h2>
+      
+      <pre><code>// Initialize client
+_nasaClient = new NasaClient(nasaConfig);
+
+// Get today's Astronomy Picture of the Day
+ApodData apod = await _nasaClient.GetApodAsync();
+
+// Download the APOD as a texture
+Texture2D texture = await _nasaClient.GetApodTextureAsync(apod);
+
+// Use the texture (e.g., apply to a RawImage)
+myRawImage.texture = texture;</code></pre>
+      
+      <h2>Requirements</h2>
+      
+      <ul>
+        <li>Unity 2022.3 LTS or newer</li>
+        <li>Newtonsoft.Json package (automatically installed as a dependency)</li>
+      </ul>
+      
+      <h2>Support and Feedback</h2>
+      
+      <p>If you encounter issues or have feature requests, please file an issue on the <a href="https://github.com/extremevisualmedia/nasa-unity-sdk/issues">GitHub repository</a>.</p>
+      
+      <h2>License</h2>
+      
+      <p>The SDK source code is released under the <a href="https://github.com/extremevisualmedia/nasa-unity-sdk/blob/main/LICENSE">MIT License</a>. Content from NASA's APIs is generally in the public domain, but please refer to <a href="https://www.nasa.gov/multimedia/guidelines/index.html">NASA's Media Usage Guidelines</a> for details.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Extreme Visual Media</p>
+  </footer>
+</body>
+</html>

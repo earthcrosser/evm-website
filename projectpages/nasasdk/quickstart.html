@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Start Guide - NASA SDK for Unity | Extreme Visual Media</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+  <header>
+    <a href="../../index.html">
+      <img src="../../evm-banner.png" alt="EVM Banner" class="banner"/>
+    </a>
+    <h1>NASA SDK for Unity</h1>
+    <p>Documentation and resources for the NASA Open Data SDK</p>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="quickstart.html">Quick Start</a></li>
+      <li><a href="configuration.html">Configuration</a></li>
+      <li><a href="api-reference.html">API Reference</a></li>
+      <li><a href="samples.html">Samples</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="docs-content">
+      <h1>Quick Start Guide</h1>
+      
+      <p>This guide will help you get up and running with the NASA APIs for Unity SDK in just a few minutes. By the end, you'll be able to display today's Astronomy Picture of the Day (APOD) in your Unity project.</p>
+      
+      <h2>Installation</h2>
+      
+      <h3>Via Unity Package Manager (Git URL)</h3>
+      
+      <ol>
+        <li>Open your Unity project</li>
+        <li>Go to <strong>Window > Package Manager</strong></li>
+        <li>Click the <strong>+</strong> button in the top-left corner</li>
+        <li>Select <strong>Add package from git URL...</strong></li>
+        <li>Enter <code>https://github.com/extremevisualmedia/nasa-unity-sdk.git</code> (or the appropriate Git URL once hosted)</li>
+        <li>Click <strong>Add</strong></li>
+      </ol>
+      
+      <h3>Via Local Package</h3>
+      
+      <p>If you've downloaded a local copy of the package:</p>
+      
+      <ol>
+        <li>Open your Unity project</li>
+        <li>Go to <strong>Window > Package Manager</strong></li>
+        <li>Click the <strong>+</strong> button in the top-left corner</li>
+        <li>Select <strong>Add package from disk...</strong></li>
+        <li>Navigate to the package folder</li>
+        <li>Click <strong>Open</strong></li>
+      </ol>
+      
+      <h2>Setting Up an API Key</h2>
+      
+      <p>The NASA SDK requires an API key to access NASA's APIs. You can use the <code>DEMO_KEY</code> for testing, but this has very low rate limits.</p>
+      
+      <ol>
+        <li>Go to <a href="https://api.nasa.gov/">api.nasa.gov</a> and sign up for a free API key</li>
+        <li>In Unity, right-click in your Project window and select <strong>Create > NASA > NasaConfig</strong></li>
+        <li>Select the newly created <code>NasaConfig.asset</code> file</li>
+        <li>In the Inspector, enter your NASA API key</li>
+        <li>Click the <strong>Test Key</strong> button to verify your key works</li>
+      </ol>
+      
+      <h2>Creating Your First NASA API Script</h2>
+      
+      <p>Let's create a simple script to display the Astronomy Picture of the Day:</p>
+      
+      <ol>
+        <li>Right-click in your Project window and select <strong>Create > C# Script > NASA Quick Start Script</strong></li>
+        <li>Name it <code>ApodDisplay</code> and press Enter</li>
+        <li>Double-click the script to open it in your code editor</li>
+      </ol>
+      
+      <p>The script should look something like this:</p>
+      
+      <pre><code>using UnityEngine;
+using UnityEngine.UI;
+using System.Threading.Tasks;
+using ExtremeVisual.Nasa;
+
+public class ApodDisplay : MonoBehaviour
+{
+    [Tooltip("Assign your NasaConfig ScriptableObject asset here.")]
+    public NasaConfig nasaConfig;
+    
+    [Tooltip("Assign a UI RawImage component here to display the APOD picture.")]
+    public RawImage apodDisplayImage;
+
+    private NasaClient _nasaClient;
+
+    async void Start()
+    {
+        if (nasaConfig == null)
+        {
+            Debug.LogError("NasaConfig not assigned.");
+            return;
+        }
+
+        // Initialize the NasaClient
+        _nasaClient = new NasaClient(nasaConfig);
+        
+        await FetchAndDisplayApod();
+    }
+
+    async Task FetchAndDisplayApod()
+    {
+        try
+        {
+            // Fetch APOD metadata
+            ApodData apodData = await _nasaClient.GetApodAsync();
+
+            if (apodData != null)
+            {
+                Debug.Log($"APOD Title: {apodData.Title}");
+                
+                if (apodData.MediaType == "image")
+                {
+                    // Download the image
+                    Texture2D texture = await _nasaClient.GetApodTextureAsync(apodData);
+                    
+                    if (texture != null && apodDisplayImage != null)
+                    {
+                        // Display the image
+                        apodDisplayImage.texture = texture;
+                    }
+                }
+            }
+        }
+        catch (NasaApiException ex)
+        {
+            Debug.LogError($"NASA API Error: {ex.Message}");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Error: {ex.Message}");
+        }
+    }
+
+    void OnDestroy()
+    {
+        _nasaClient?.Dispose();
+    }
+}</code></pre>
+      
+      <h2>Setting Up Your Scene</h2>
+      
+      <ol>
+        <li>Create a new scene or use an existing one</li>
+        <li>Add a UI Canvas to your scene (<strong>GameObject > UI > Canvas</strong>)</li>
+        <li>Add a RawImage to the Canvas (<strong>GameObject > UI > Raw Image</strong>)</li>
+        <li>Create an empty GameObject and name it <code>NasaManager</code></li>
+        <li>Add your <code>ApodDisplay</code> script to the <code>NasaManager</code> GameObject</li>
+        <li>Drag your <code>NasaConfig.asset</code> from the Project window to the <code>Nasa Config</code> field in the Inspector</li>
+        <li>Drag the RawImage from your Hierarchy to the <code>Apod Display Image</code> field in the Inspector</li>
+      </ol>
+      
+      <h2>Run the Scene</h2>
+      
+      <p>Press Play! If everything is set up correctly, you should see today's Astronomy Picture of the Day load into your RawImage.</p>
+      
+      <h2>Next Steps</h2>
+      
+      <ul>
+        <li>Check out the <a href="samples.html">sample scenes</a> included with the SDK to see more examples</li>
+        <li>Explore the other NASA APIs through the SDK's methods</li>
+        <li>Try the Data Explorer window (<strong>NASA > Data Explorer</strong>) to preview data from the APIs directly in the editor</li>
+        <li>Read the <a href="configuration.html">configuration guide</a> to learn more about caching and other settings</li>
+      </ul>
+      
+      <h2>Troubleshooting</h2>
+      
+      <ul>
+        <li>If you encounter a "Demo API key rate limit exceeded" error, get your own API key from <a href="https://api.nasa.gov/">api.nasa.gov</a></li>
+        <li>If the image doesn't load, make sure the APOD for today is an image and not a video (check <code>MediaType == "image"</code>)</li>
+        <li>Check that all GameObject and component references are properly assigned</li>
+      </ul>
+      
+      <a href="#top" class="back-to-top">Back to Top</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Extreme Visual Media</p>
+  </footer>
+</body>
+</html>

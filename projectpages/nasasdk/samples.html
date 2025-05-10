@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sample Scenes - NASA SDK for Unity | Extreme Visual Media</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+  <header>
+    <a href="../../index.html">
+      <img src="../../evm-banner.png" alt="EVM Banner" class="banner"/>
+    </a>
+    <h1>NASA SDK for Unity</h1>
+    <p>Documentation and resources for the NASA Open Data SDK</p>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="quickstart.html">Quick Start</a></li>
+      <li><a href="configuration.html">Configuration</a></li>
+      <li><a href="api-reference.html">API Reference</a></li>
+      <li><a href="samples.html">Samples</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="docs-content">
+      <h1>Sample Scenes</h1>
+      
+      <p>The NASA SDK includes several sample scenes to help you understand how to use the various APIs in your own projects. These samples demonstrate common use cases and best practices for using NASA data in Unity.</p>
+      
+      <h2>Importing the Samples</h2>
+      
+      <p>To import the sample scenes:</p>
+      
+      <ol>
+        <li>Open your Unity project</li>
+        <li>Go to <strong>Window > Package Manager</strong></li>
+        <li>Select the <strong>NASA API SDK</strong> package from the list</li>
+        <li>Click the <strong>Samples</strong> tab</li>
+        <li>Click the <strong>Import</strong> button next to each sample you want to use</li>
+      </ol>
+      
+      <p>The samples will be imported into your Assets/Samples/NASA API SDK/ directory.</p>
+      
+      <h2>Sample Gallery</h2>
+      
+      <h3>APOD Gallery</h3>
+      <p>A dynamic gallery that displays recent Astronomy Pictures of the Day with titles and descriptions.</p>
+      
+      <h4>Features</h4>
+      <ul>
+        <li>Loads multiple APOD images and displays them in a scrollable UI</li>
+        <li>Demonstrates how to handle both image and video media types</li>
+        <li>Shows how to cache images for better performance</li>
+        <li>Includes date selection to view APODs from specific dates</li>
+      </ul>
+      
+      <h3>Mars Rover Explorer</h3>
+      <p>Browse through photos from various Mars rovers with filtering options.</p>
+      
+      <h4>Features</h4>
+      <ul>
+        <li>Select between different rovers (Curiosity, Opportunity, Spirit, Perseverance)</li>
+        <li>Filter by camera type</li>
+        <li>Choose by sol (Martian day) or Earth date</li>
+        <li>View high-resolution versions of selected images</li>
+      </ul>
+      
+      <h3>Earth Viewer</h3>
+      <p>Interactive Earth imagery viewer that lets you explore satellite imagery from any location on Earth.</p>
+      
+      <h4>Features</h4>
+      <ul>
+        <li>Interactive map to select viewing locations</li>
+        <li>Date selection to view historical imagery</li>
+        <li>Coordinate input for precise location selection</li>
+        <li>Save favorite locations</li>
+      </ul>
+      
+      <h3>NEO Tracker</h3>
+      <p>Visualize near-Earth objects (asteroids) in a 3D space simulator.</p>
+      
+      <h4>Features</h4>
+      <ul>
+        <li>Scale-accurate 3D visualization of Earth and near-Earth objects</li>
+        <li>Real-time data from NASA's NEO API</li>
+        <li>Details panel showing size, speed, and potential hazard information</li>
+        <li>Time controls to see asteroid positions over time</li>
+      </ul>
+      
+      <h3>EPIC Earth Timelapse</h3>
+      <p>Create timelapses of full-disk Earth images from NASA's EPIC camera aboard the DSCOVR satellite.</p>
+      
+      <h4>Features</h4>
+      <ul>
+        <li>Loads full-disk Earth images from the EPIC API</li>
+        <li>Creates animated timelapses over days or weeks</li>
+        <li>Toggle between natural color and enhanced color imagery</li>
+        <li>Includes UI controls for playback speed and range</li>
+      </ul>
+      
+      <h2>Using Sample Code in Your Project</h2>
+      
+      <p>Feel free to use any code from the samples in your own projects. Each sample includes well-commented code to help you understand how everything works.</p>
+      
+      <p>Key scripts to look at include:</p>
+      
+      <ul>
+        <li><code>ApodGalleryManager.cs</code> - For managing Astronomy Picture of the Day data</li>
+        <li><code>MarsRoverExplorer.cs</code> - For browsing Mars rover photos</li>
+        <li><code>EarthImageryViewer.cs</code> - For working with Earth satellite imagery</li>
+        <li><code>NeoVisualizer.cs</code> - For visualizing asteroid data</li>
+        <li><code>EpicTimelapseGenerator.cs</code> - For creating Earth timelapses</li>
+      </ul>
+      
+      <h2>Sample Requirements</h2>
+      
+      <p>The samples require:</p>
+      
+      <ul>
+        <li>Unity 2022.3 LTS or newer</li>
+        <li>Universal Render Pipeline (URP) for some visual effects</li>
+        <li>TextMeshPro for UI elements</li>
+      </ul>
+      
+      <p>The package manager will automatically install these dependencies when you import the samples.</p>
+      
+      <a href="#top" class="back-to-top">Back to Top</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Extreme Visual Media</p>
+  </footer>
+</body>
+</html>

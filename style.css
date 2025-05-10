@@ -197,6 +197,40 @@ section {
   box-shadow: 0 0 10px var(--secondary);
 }
 
+/* NASA SDK Section */
+.nasa-sdk-section {
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
+  border-left: 3px solid var(--secondary);
+}
+
+.sdk-content {
+  margin: 1em 0;
+}
+
+.docs-links ul {
+  list-style-type: none;
+  padding-left: 0.5em;
+  margin: 1.5em 0;
+}
+
+.docs-links li {
+  margin-bottom: 0.8em;
+  position: relative;
+  padding-left: 1.5em;
+}
+
+.docs-links li::before {
+  content: '⬨';
+  position: absolute;
+  left: 0;
+  color: var(--secondary);
+}
+
+.sdk-cta {
+  margin: 2em 0 1em;
+  text-align: center;
+}
+
 /* Contact */
 .contact-section {
   text-align: center;
