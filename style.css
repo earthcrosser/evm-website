@@ -197,8 +197,8 @@ section {
   box-shadow: 0 0 10px var(--secondary);
 }
 
-/* NASA SDK Section */
-.nasa-sdk-section {
+/* Far Out SDK Section */
+.far-out-sdk-section {
   background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
   border-left: 3px solid var(--secondary);
 }

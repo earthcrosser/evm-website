@@ -1,10 +1,10 @@
-# NASA APIs for Unity
+# Far Out SDK for Unity
 
-Welcome to the NASA APIs for Unity SDK documentation! This SDK provides a comprehensive, production-quality interface to NASA's rich collection of public APIs. Fetch stunning astronomy pictures, browse Martian landscapes, track near-Earth asteroids, and more, all directly within your Unity applications at runtime.
+Welcome to the Far Out SDK documentation! This SDK provides a comprehensive, production-quality interface to NASA's rich collection of public APIs. Fetch stunning astronomy pictures, browse Martian landscapes, track near-Earth asteroids, and more, all directly within your Unity applications at runtime.
 
 ## Overview
 
-The NASA SDK provides an easy-to-use interface for accessing NASA's APIs, with features like:
+The Far Out SDK provides an easy-to-use interface for accessing NASA's APIs, with features like:
 
 - Easy configuration through a `NasaConfig` ScriptableObject
 - Asynchronous API access using Tasks

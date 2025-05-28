@@ -1,6 +1,6 @@
 # API Reference
 
-This document provides an overview of the main classes and methods in the NASA APIs for Unity SDK.
+This document provides an overview of the main classes and methods in the Far Out SDK for Unity.
 
 ## Main Classes
 
@@ -85,7 +85,7 @@ public async Task<List<Texture2D>> GetEpicImagesAsync(DateTime date, string imag
 
 ### NasaConfig
 
-`NasaConfig` is a ScriptableObject that stores configuration settings for the NASA SDK.
+`NasaConfig` is a ScriptableObject that stores configuration settings for the Far Out SDK.
 
 ```csharp
 public class NasaConfig : ScriptableObject

@@ -1,13 +1,13 @@
 # Sample Scenes
 
-The NASA APIs for Unity SDK includes several sample scenes to help you get started. These scenes demonstrate how to use different NASA APIs and integrate them into your Unity projects.
+The Far Out SDK for Unity includes several sample scenes to help you get started. These scenes demonstrate how to use different NASA APIs and integrate them into your Unity projects.
 
 ## Importing Samples
 
 To import the sample scenes:
 
 1. Open the Unity Package Manager (**Window > Package Manager**)
-2. Select the **NASA APIs for Unity** package
+2. Select the **Far Out SDK for Unity** package
 3. In the package details, find the **Samples** section
 4. Click the **Import** button next to each sample you want to use
 

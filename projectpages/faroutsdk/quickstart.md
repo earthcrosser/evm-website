@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-This guide will help you get up and running with the NASA APIs for Unity SDK in just a few minutes. By the end, you'll be able to display today's Astronomy Picture of the Day (APOD) in your Unity project.
+This guide will help you get up and running with the Far Out SDK for Unity in just a few minutes. By the end, you'll be able to display today's Astronomy Picture of the Day (APOD) in your Unity project.
 
 ## Installation
 
@@ -26,7 +26,7 @@ If you've downloaded a local copy of the package:
 
 ## Setting Up an API Key
 
-The NASA SDK requires an API key to access NASA's APIs. You can use the `DEMO_KEY` for testing, but this has very low rate limits.
+The Far Out SDK requires an API key to access NASA's APIs. You can use the `DEMO_KEY` for testing, but this has very low rate limits.
 
 1. Go to [api.nasa.gov](https://api.nasa.gov/) and sign up for a free API key
 2. In Unity, right-click in your Project window and select **Create > NASA > NasaConfig**
@@ -34,11 +34,11 @@ The NASA SDK requires an API key to access NASA's APIs. You can use the `DEMO_KE
 4. In the Inspector, enter your NASA API key
 5. Click the **Test Key** button to verify your key works
 
-## Creating Your First NASA API Script
+## Creating Your First Far Out SDK Script
 
 Let's create a simple script to display the Astronomy Picture of the Day:
 
-1. Right-click in your Project window and select **Create > C# Script > NASA Quick Start Script**
+1. Right-click in your Project window and select **Create > C# Script > Far Out SDK Quick Start Script**
 2. Name it `ApodDisplay` and press Enter
 3. Double-click the script to open it in your code editor
 

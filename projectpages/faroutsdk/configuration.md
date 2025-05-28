@@ -1,10 +1,10 @@
 # Configuration Guide
 
-This guide covers the configuration options for the NASA APIs for Unity SDK.
+This guide covers the configuration options for the Far Out SDK for Unity.
 
 ## NasaConfig
 
-The `NasaConfig` asset is a ScriptableObject that stores all your settings for the NASA SDK. It includes:
+The `NasaConfig` asset is a ScriptableObject that stores all your settings for the Far Out SDK. It includes:
 
 - API key
 - Base URL
@@ -46,7 +46,7 @@ The default base URL is `https://api.nasa.gov`, which should work for all suppor
 
 ### Caching
 
-The NASA SDK includes a built-in caching system to reduce API calls and save bandwidth.
+The Far Out SDK includes a built-in caching system to reduce API calls and save bandwidth.
 
 #### Caching Options
 
