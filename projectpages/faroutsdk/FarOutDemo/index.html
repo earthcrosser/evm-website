@@ -63,6 +63,11 @@
         productName: "FarOutDemo",
         productVersion: "0.1.0",
         showBanner: unityShowBanner,
+        webglContextAttributes: {
+          preserveDrawingBuffer: true,
+          powerPreference: "default",
+          failIfMajorPerformanceCaveat: false
+        }
       };
 
       // By default, Unity keeps WebGL canvas render target size matched with
@@ -101,6 +106,22 @@
         canvas.style.width = "960px";
         canvas.style.height = "600px";
       }
+
+      // Check WebGL support
+      if (!window.WebGLRenderingContext) {
+        unityShowBanner("WebGL is not supported by your browser.", "error");
+        return;
+      }
+
+      // Override console methods to suppress specific WebGL warnings
+      var originalConsoleError = console.error;
+      console.error = function() {
+        var args = Array.prototype.slice.call(arguments);
+        var message = args.join(' ');
+        if (!message.includes('INVALID_ENUM: getInternalformatParameter')) {
+          originalConsoleError.apply(console, arguments);
+        }
+      };
 
       document.querySelector("#unity-loading-bar").style.display = "block";
 
