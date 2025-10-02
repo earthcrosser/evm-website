@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PrestoPad Samples</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+  <header>
+    <h1>PrestoPad Sample Scenes</h1>
+    <p>Example implementations and code</p>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="quickstart.html">Quick Start</a></li>
+      <li><a href="api-reference.html">API Reference</a></li>
+      <li><a href="samples.html">Samples</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="docs-content">
+      <h1>Sample Scenes</h1>
+
+      <p>PrestoPad includes complete sample scenes demonstrating key functionality. These examples provide a solid foundation for understanding how to integrate PrestoPad into your own projects.</p>
+
+      <h2>Sample Scene Overview</h2>
+
+      <h3>SamplePrestoPadScene</h3>
+      <p><strong>Location:</strong> <code>Assets/PrestoPad/Samples/Scenes/SamplePrestoPadScene.unity</code></p>
+
+      <p>This comprehensive sample scene demonstrates all core features of PrestoPad:</p>
+
+      <h4>Components Included</h4>
+      <ul>
+        <li><strong>PrestoPadManager Prefab:</strong> Server management and controller coordination</li>
+        <li><strong>ConnectionDisplay Prefab:</strong> QR code display and connection information</li>
+        <li><strong>PrestoPadDeviceMonitor:</strong> Visual debugging tool showing real-time controller input</li>
+        <li><strong>SamplePlayerController:</strong> Example player movement and input handling</li>
+      </ul>
+
+      <h2>Key Sample Scripts</h2>
+
+      <h3>PrestoPadDeviceMonitor</h3>
+      <p><strong>Location:</strong> <code>Assets/PrestoPad/Samples/Scripts/PrestoPadDeviceMonitor.cs</code></p>
+
+      <p>Monitors and displays all connected PrestoPad controllers in real-time. Useful for debugging and visualizing input.</p>
+
+      <h4>Features</h4>
+      <ul>
+        <li>Displays all connected controllers with their IDs</li>
+        <li>Shows button states (pressed/released)</li>
+        <li>Visualizes joystick and D-Pad input</li>
+        <li>Updates in real-time as controllers connect/disconnect</li>
+      </ul>
+
+      <h4>Key Code Snippets</h4>
+      <pre><code>// Detecting all PrestoPad devices
+var controllers = InputSystem.devices
+    .Where(d => d is PrestoPadControllerDevice)
+    .Cast&lt;PrestoPadControllerDevice&gt;()
+    .ToList();
+
+// Monitoring device changes
+InputSystem.onDeviceChange += (device, change) =>
+{
+    if (device is PrestoPadControllerDevice controller)
+    {
+        if (change == InputDeviceChange.Added)
+            Debug.Log($"Controller {controller.ControllerId} added");
+        else if (change == InputDeviceChange.Removed)
+            Debug.Log($"Controller {controller.ControllerId} removed");
+    }
+};</code></pre>
+
+      <h3>SamplePlayerController</h3>
+      <p><strong>Location:</strong> <code>Assets/PrestoPad/Samples/Scripts/SamplePlayerController.cs</code></p>
+
+      <p>Demonstrates basic player movement and input handling using PrestoPad controllers.</p>
+
+      <h4>Features</h4>
+      <ul>
+        <li>Joystick-based movement</li>
+        <li>D-Pad discrete movement</li>
+        <li>Button input for actions (jump, fire, etc.)</li>
+        <li>Controller assignment and management</li>
+      </ul>
+
+      <h4>Key Code Snippets</h4>
+      <pre><code>using UnityEngine;
+using UnityEngine.InputSystem;
+using PrestoPad.Input;
+
+public class SamplePlayerController : MonoBehaviour
+{
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 10f;
+
+    private PrestoPadControllerDevice controller;
+    private Rigidbody rb;
+    private bool isGrounded;
+
+    void Start()
+    {
+        rb = GetComponent&lt;Rigidbody&gt;();
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is PrestoPadControllerDevice pad)
+        {
+            if (change == InputDeviceChange.Added && controller == null)
+            {
+                // Assign first available controller
+                controller = pad;
+                Debug.Log($"Player assigned to controller {pad.ControllerId}");
+            }
+        }
+    }
+
+    void Update()
+    {
+        if (controller == null) return;
+
+        HandleMovement();
+        HandleActions();
+    }
+
+    void HandleMovement()
+    {
+        // Joystick movement (smooth)
+        Vector2 moveInput = controller.LeftStick.ReadValue();
+
+        if (moveInput.magnitude > 0.1f)
+        {
+            Vector3 movement = new Vector3(moveInput.x, 0, moveInput.y);
+            transform.Translate(movement * moveSpeed * Time.deltaTime);
+        }
+
+        // Alternative: D-Pad movement (discrete)
+        if (controller.DPad.up.isPressed)
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        if (controller.DPad.down.isPressed)
+            transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
+        if (controller.DPad.left.isPressed)
+            transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+        if (controller.DPad.right.isPressed)
+            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+    }
+
+    void HandleActions()
+    {
+        // Jump on A button press
+        if (controller.ButtonA.wasPressedThisFrame && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+
+        // Additional actions
+        if (controller.ButtonB.wasPressedThisFrame)
+            Fire();
+
+        if (controller.ButtonX.wasPressedThisFrame)
+            UseItem();
+
+        if (controller.ButtonY.wasPressedThisFrame)
+            Interact();
+    }
+
+    void Fire() { Debug.Log("Fire!"); }
+    void UseItem() { Debug.Log("Use Item!"); }
+    void Interact() { Debug.Log("Interact!"); }
+
+    void OnCollisionStay() { isGrounded = true; }
+    void OnCollisionExit() { isGrounded = false; }
+}</code></pre>
+
+      <h2>Running the Sample</h2>
+
+      <ol>
+        <li>Open the sample scene: <code>Assets/PrestoPad/Samples/Scenes/SamplePrestoPadScene.unity</code></li>
+        <li>Enter Play Mode</li>
+        <li>A QR code will appear on screen</li>
+        <li>Scan the QR code with your smartphone</li>
+        <li>The controller interface will load in your phone's browser</li>
+        <li>Use the on-screen controls to interact with the sample</li>
+        <li>Watch the DeviceMonitor UI to see input in real-time</li>
+      </ol>
+
+      <h2>Common Patterns</h2>
+
+      <h3>Multi-Player Controller Assignment</h3>
+      <pre><code>using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using PrestoPad.Input;
+
+public class MultiPlayerManager : MonoBehaviour
+{
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Transform[] spawnPoints;
+
+    private Dictionary&lt;int, GameObject&gt; players = new Dictionary&lt;int, GameObject&gt;();
+
+    void OnEnable()
+    {
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is PrestoPadControllerDevice controller)
+        {
+            if (change == InputDeviceChange.Added)
+            {
+                SpawnPlayer(controller);
+            }
+            else if (change == InputDeviceChange.Removed)
+            {
+                RemovePlayer(controller.ControllerId);
+            }
+        }
+    }
+
+    void SpawnPlayer(PrestoPadControllerDevice controller)
+    {
+        int playerIndex = controller.ControllerId - 1;
+
+        if (playerIndex < spawnPoints.Length)
+        {
+            GameObject player = Instantiate(playerPrefab, spawnPoints[playerIndex]);
+            player.GetComponent&lt;PlayerController&gt;().SetController(controller);
+            players[controller.ControllerId] = player;
+        }
+    }
+
+    void RemovePlayer(int controllerId)
+    {
+        if (players.ContainsKey(controllerId))
+        {
+            Destroy(players[controllerId]);
+            players.Remove(controllerId);
+        }
+    }
+}</code></pre>
+
+      <h3>Waiting for Specific Controller</h3>
+      <pre><code>using System.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using PrestoPad.Input;
+
+public class WaitForController : MonoBehaviour
+{
+    [SerializeField] private int playerIndex = 1;
+    private PrestoPadControllerDevice controller;
+
+    void Start()
+    {
+        StartCoroutine(WaitForSpecificController());
+    }
+
+    IEnumerator WaitForSpecificController()
+    {
+        while (controller == null)
+        {
+            foreach (var device in InputSystem.devices)
+            {
+                if (device is PrestoPadControllerDevice pad)
+                {
+                    if (pad.ControllerId == playerIndex)
+                    {
+                        controller = pad;
+                        Debug.Log($"Found controller {playerIndex}!");
+                        break;
+                    }
+                }
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        // Controller is ready, start gameplay
+        OnControllerReady();
+    }
+
+    void OnControllerReady()
+    {
+        Debug.Log("Controller ready, starting game!");
+    }
+}</code></pre>
+
+      <h2>Testing Tips</h2>
+
+      <ul>
+        <li><strong>Use localhost for quick testing:</strong> Type <code>localhost:8080/controller/</code> in a browser on the same machine</li>
+        <li><strong>Enable debug logging:</strong> Check the <code>PrestoPadServerConfig</code> asset and enable debug logging for detailed console output</li>
+        <li><strong>Monitor the DeviceMonitor:</strong> Use the sample's DeviceMonitor component to visualize all input in real-time</li>
+        <li><strong>Test with multiple devices:</strong> Connect several phones to test multiplayer functionality</li>
+        <li><strong>Firewall configuration:</strong> Ensure ports 8080 and 8081 are open for Unity.exe (see Quick Start guide)</li>
+      </ul>
+
+      <h2>Next Steps</h2>
+
+      <p>Now that you've explored the samples, you can:</p>
+      <ul>
+        <li>Integrate PrestoPad into your own game scenes</li>
+        <li>Customize the controller UI using the Theme Editor</li>
+        <li>Explore the <a href="api-reference.html">API Reference</a> for advanced features</li>
+        <li>Modify the sample scripts to fit your specific needs</li>
+      </ul>
+
+      <div class="sdk-cta">
+        <a href="quickstart.html" class="project-link">Quick Start Guide</a>
+        <a href="api-reference.html" class="project-link">API Reference</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Extreme Visual Media</p>
+  </footer>
+</body>
+</html>

@@ -197,6 +197,40 @@ section {
   box-shadow: 0 0 10px var(--secondary);
 }
 
+/* Project Images */
+.project-logo {
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto 1.5em;
+  display: block;
+  border-radius: 8px;
+}
+
+.project-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5em;
+  margin: 1.5em 0;
+}
+
+.feature-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.feature-image:hover {
+  transform: scale(1.02);
+}
+
+/* PrestoPad Featured Section */
+.prestopad-featured {
+  background: linear-gradient(135deg, rgba(255, 41, 117, 0.1), rgba(0, 0, 0, 0.3));
+  border: 1px solid rgba(255, 41, 117, 0.3);
+}
+
 /* Far Out SDK Section */
 .far-out-sdk-section {
   background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
@@ -259,6 +293,14 @@ footer {
   }
 
   .projects {
+    grid-template-columns: 1fr;
+  }
+
+  .project-logo {
+    max-width: 200px;
+  }
+
+  .project-images {
     grid-template-columns: 1fr;
   }
 }

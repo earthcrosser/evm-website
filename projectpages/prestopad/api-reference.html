@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PrestoPad API Reference</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+  <header>
+    <h1>PrestoPad API Reference</h1>
+    <p>Complete API documentation</p>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="quickstart.html">Quick Start</a></li>
+      <li><a href="api-reference.html">API Reference</a></li>
+      <li><a href="samples.html">Samples</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="docs-content">
+      <h1>API Reference</h1>
+
+      <h2>Core Classes</h2>
+
+      <h3>PrestoPadServerManager</h3>
+      <p>Manages HTTP and WebSocket servers for controller communication.</p>
+
+      <h4>Properties</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Instance</code></td>
+            <td>PrestoPadServerManager</td>
+            <td>Singleton instance</td>
+          </tr>
+          <tr>
+            <td><code>HttpPort</code></td>
+            <td>int</td>
+            <td>HTTP server port (default: 8080)</td>
+          </tr>
+          <tr>
+            <td><code>WebSocketPort</code></td>
+            <td>int</td>
+            <td>WebSocket server port (default: 8081)</td>
+          </tr>
+          <tr>
+            <td><code>IsHttpServerRunning</code></td>
+            <td>bool</td>
+            <td>Current server status</td>
+          </tr>
+          <tr>
+            <td><code>LocalIPAddress</code></td>
+            <td>string</td>
+            <td>Local device IP address</td>
+          </tr>
+          <tr>
+            <td><code>ControllerURL</code></td>
+            <td>string</td>
+            <td>Full controller URL for connection</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Events</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>OnHttpServerReady</code></td>
+            <td>Fired when the HTTP server starts successfully</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>PrestoPadControllerDevice</h3>
+      <p>Custom Input Device representing a connected smartphone controller.</p>
+
+      <h4>Controls</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Control</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>ButtonA</code></td>
+            <td>ButtonControl</td>
+            <td>A button (bottom action button)</td>
+          </tr>
+          <tr>
+            <td><code>ButtonB</code></td>
+            <td>ButtonControl</td>
+            <td>B button (right action button)</td>
+          </tr>
+          <tr>
+            <td><code>ButtonX</code></td>
+            <td>ButtonControl</td>
+            <td>X button (left action button)</td>
+          </tr>
+          <tr>
+            <td><code>ButtonY</code></td>
+            <td>ButtonControl</td>
+            <td>Y button (top action button)</td>
+          </tr>
+          <tr>
+            <td><code>StartButton</code></td>
+            <td>ButtonControl</td>
+            <td>Start button</td>
+          </tr>
+          <tr>
+            <td><code>SelectButton</code></td>
+            <td>ButtonControl</td>
+            <td>Select button</td>
+          </tr>
+          <tr>
+            <td><code>DPad</code></td>
+            <td>DpadControl</td>
+            <td>Directional pad (up, down, left, right)</td>
+          </tr>
+          <tr>
+            <td><code>LeftStick</code></td>
+            <td>StickControl</td>
+            <td>Analog joystick (Vector2)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Properties</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>ControllerId</code></td>
+            <td>int</td>
+            <td>Unique controller identifier (1-12)</td>
+          </tr>
+          <tr>
+            <td><code>deviceId</code></td>
+            <td>int</td>
+            <td>Unity Input System device ID</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Example Usage</h4>
+      <pre><code>void Update()
+{
+    if (controller == null) return;
+
+    // Button press detection
+    if (controller.ButtonA.wasPressedThisFrame)
+        Jump();
+
+    if (controller.ButtonA.isPressed)
+        ChargeJump();
+
+    if (controller.ButtonA.wasReleasedThisFrame)
+        ReleaseJump();
+
+    // Joystick input
+    Vector2 movement = controller.LeftStick.ReadValue();
+    Move(movement);
+
+    // D-Pad discrete input
+    if (controller.DPad.up.isPressed)
+        MoveUp();
+    if (controller.DPad.down.isPressed)
+        MoveDown();
+    if (controller.DPad.left.isPressed)
+        MoveLeft();
+    if (controller.DPad.right.isPressed)
+        MoveRight();
+}</code></pre>
+
+      <h3>InputSystemBridge</h3>
+      <p>Bridges network messages to Unity's Input System.</p>
+
+      <h4>Methods</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Parameters</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>RegisterController</code></td>
+            <td>int id</td>
+            <td>Register a new controller by ID</td>
+          </tr>
+          <tr>
+            <td><code>UnregisterController</code></td>
+            <td>int id</td>
+            <td>Remove a controller by ID</td>
+          </tr>
+          <tr>
+            <td><code>UpdateControllerState</code></td>
+            <td>int id, byte[] data</td>
+            <td>Update controller input state from binary data</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Configuration</h2>
+
+      <h3>PrestoPadServerConfig (ScriptableObject)</h3>
+      <p>Configure server behavior through the Unity Inspector.</p>
+
+      <h4>Network Settings</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>autoStartServers</code></td>
+            <td>bool</td>
+            <td>true</td>
+            <td>Automatically start servers when enabled</td>
+          </tr>
+          <tr>
+            <td><code>httpPort</code></td>
+            <td>int</td>
+            <td>8080</td>
+            <td>HTTP server port for serving web controller</td>
+          </tr>
+          <tr>
+            <td><code>webSocketPort</code></td>
+            <td>int</td>
+            <td>8081</td>
+            <td>WebSocket port for real-time input</td>
+          </tr>
+          <tr>
+            <td><code>maxConnections</code></td>
+            <td>int</td>
+            <td>6</td>
+            <td>Maximum simultaneous controllers (1-12)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Debug Settings</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>enableDebugLogging</code></td>
+            <td>bool</td>
+            <td>false</td>
+            <td>Enable detailed console logging</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Advanced Usage</h2>
+
+      <h3>Detecting Controller Connection/Disconnection</h3>
+      <pre><code>using UnityEngine;
+using UnityEngine.InputSystem;
+using PrestoPad.Input;
+
+public class ControllerManager : MonoBehaviour
+{
+    private void OnEnable()
+    {
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    private void OnDisable()
+    {
+        InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is PrestoPadControllerDevice controller)
+        {
+            switch (change)
+            {
+                case InputDeviceChange.Added:
+                    HandleControllerConnected(controller);
+                    break;
+                case InputDeviceChange.Removed:
+                    HandleControllerDisconnected(controller);
+                    break;
+            }
+        }
+    }
+
+    void HandleControllerConnected(PrestoPadControllerDevice controller)
+    {
+        Debug.Log($"Controller {controller.ControllerId} connected!");
+        // Assign to player, spawn character, etc.
+    }
+
+    void HandleControllerDisconnected(PrestoPadControllerDevice controller)
+    {
+        Debug.Log($"Controller {controller.ControllerId} disconnected!");
+        // Handle cleanup, pause game, etc.
+    }
+}</code></pre>
+
+      <h3>Assigning Controllers to Specific Players</h3>
+      <pre><code>using System.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using PrestoPad.Input;
+
+public class PlayerSpawner : MonoBehaviour
+{
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Transform[] spawnPoints;
+
+    private void OnEnable()
+    {
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is PrestoPadControllerDevice controller)
+        {
+            if (change == InputDeviceChange.Added)
+            {
+                SpawnPlayerForController(controller);
+            }
+        }
+    }
+
+    void SpawnPlayerForController(PrestoPadControllerDevice controller)
+    {
+        int playerIndex = controller.ControllerId - 1; // 0-based index
+
+        if (playerIndex >= 0 && playerIndex < spawnPoints.Length)
+        {
+            GameObject player = Instantiate(playerPrefab, spawnPoints[playerIndex]);
+
+            // Assign controller to player
+            var playerController = player.GetComponent<PlayerController>();
+            playerController.SetController(controller);
+        }
+    }
+}</code></pre>
+
+      <h2>Theme Customization</h2>
+      <p>The web controller interface can be customized using CSS themes:</p>
+      <ul>
+        <li>Open the Theme Editor: <code>Tools > PrestoPad > Theme Editor</code></li>
+        <li>Themes are stored as CSS files in <code>Assets/StreamingAssets/controller/themes</code></li>
+        <li>Create new themes or modify existing ones</li>
+        <li>Set a default theme that will be applied to all controllers</li>
+      </ul>
+
+      <h2>Customizing Controller HTML</h2>
+      <p>For advanced customization, you can modify the controller web interface directly:</p>
+      <ul>
+        <li><code>StreamingAssets/controller/index.html</code> - HTML structure</li>
+        <li><code>StreamingAssets/controller/controller.css</code> - Styling</li>
+        <li><code>StreamingAssets/controller/controller.js</code> - JavaScript logic</li>
+      </ul>
+
+      <p><strong>Note:</strong> Changes to these files will affect all controllers. Make backups before modifying.</p>
+
+      <div class="sdk-cta">
+        <a href="quickstart.html" class="project-link">Quick Start Guide</a>
+        <a href="samples.html" class="project-link">View Samples</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Extreme Visual Media</p>
+  </footer>
+</body>
+</html>

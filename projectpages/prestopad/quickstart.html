@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PrestoPad Quick Start Guide</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+  <header>
+    <h1>PrestoPad Quick Start</h1>
+    <p>Get up and running in minutes</p>
+  </header>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="quickstart.html">Quick Start</a></li>
+      <li><a href="api-reference.html">API Reference</a></li>
+      <li><a href="samples.html">Samples</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="docs-content">
+      <h1>Quick Start Guide</h1>
+
+      <h2>Prerequisites</h2>
+      <p>Before you begin, ensure your Unity project meets these requirements:</p>
+      <ul>
+        <li>Unity 6 (6000.0.32f1) or higher</li>
+        <li>Input System package installed (com.unity.inputsystem v1.14.2+)</li>
+        <li>Project Settings configured for Input System:
+          <ul>
+            <li>Open <code>Edit > Project Settings > Player > Other Settings</code></li>
+            <li>Set <code>Active Input Handling</code> to <code>Both</code> or <code>Input System (New)</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2>Step 1: Import PrestoPad</h2>
+      <ol>
+        <li>Import PrestoPad from the Unity Asset Store</li>
+        <li>Wait for Unity to compile the scripts</li>
+        <li>Verify that the <code>com.unity.inputsystem</code> package is installed in Package Manager</li>
+      </ol>
+
+      <h2>Step 2: Add PrestoPad to Your Scene</h2>
+      <ol>
+        <li>Drag the <code>PrestoPadManager</code> prefab into your scene
+          <ul>
+            <li>Location: <code>Assets/PrestoPad/Runtime/Prefabs/PrestoPadManager.prefab</code></li>
+          </ul>
+        </li>
+        <li>Drag the <code>ConnectionDisplay</code> prefab to show the QR code
+          <ul>
+            <li>Location: <code>Assets/PrestoPad/Runtime/Prefabs/ConnectionDisplay.prefab</code></li>
+          </ul>
+        </li>
+        <li>Configure the server settings via the <code>PrestoPadServerConfig</code> asset
+          <ul>
+            <li>Location: <code>Assets/PrestoPad/ScriptableObjects/PrestoPadServerConfig.asset</code></li>
+          </ul>
+        </li>
+      </ol>
+
+      <h2>Step 3: Configure Server Settings</h2>
+      <p>Select the <code>PrestoPadServerConfig</code> asset and adjust these settings:</p>
+      <ul>
+        <li><strong>HTTP Port:</strong> Default 8080 (serves the web controller interface)</li>
+        <li><strong>WebSocket Port:</strong> Default 8081 (handles real-time input)</li>
+        <li><strong>Max Connections:</strong> Maximum simultaneous controllers (1-12, default is 6)</li>
+        <li><strong>Enable Debug Logging:</strong> For development troubleshooting</li>
+      </ul>
+
+      <h2>Step 4: Set Up Input Actions</h2>
+      <ol>
+        <li>Open your Input Actions asset (or create one via <code>Assets > Create > Input Actions</code>)</li>
+        <li>Create actions for your game (Movement, Jump, Fire, etc.)</li>
+        <li>Map your actions to work with the <code>PrestoPadControllerDevice</code>
+          <ul>
+            <li>The device appears as <code>PrestoPad</code> in the Input System</li>
+            <li>Available controls: ButtonA, ButtonB, ButtonX, ButtonY, StartButton, SelectButton, DPad, LeftStick</li>
+          </ul>
+        </li>
+        <li>You can use any control scheme naming you prefer (no specific scheme is required)</li>
+      </ol>
+
+      <h2>Step 5: Test the Connection</h2>
+      <ol>
+        <li>Enter Play Mode in Unity</li>
+        <li>A QR code is displayed by the <code>ConnectionDisplay</code> prefab</li>
+        <li>Scan the QR code with a smartphone on the same network</li>
+        <li>The controller interface loads automatically in the phone browser</li>
+        <li>Press buttons on your phone - you should see input in the Unity Editor!</li>
+      </ol>
+
+      <h2>Basic Code Example</h2>
+      <p>Here's a simple script to handle controller input:</p>
+
+      <pre><code>using UnityEngine;
+using UnityEngine.InputSystem;
+using PrestoPad.Input;
+
+public class PlayerController : MonoBehaviour
+{
+    private PrestoPadControllerDevice controller;
+
+    void Start()
+    {
+        // Listen for controller connection
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is PrestoPadControllerDevice pad)
+        {
+            if (change == InputDeviceChange.Added)
+            {
+                controller = pad;
+                Debug.Log($"Controller {pad.ControllerId} connected!");
+            }
+        }
+    }
+
+    void Update()
+    {
+        if (controller == null) return;
+
+        // Read button states
+        if (controller.ButtonA.wasPressedThisFrame)
+            Jump();
+
+        // Read joystick
+        Vector2 movement = controller.LeftStick.ReadValue();
+        Move(movement);
+
+        // Read D-Pad
+        if (controller.DPad.up.isPressed)
+            MoveUp();
+    }
+
+    void Jump() { /* Your jump logic */ }
+    void Move(Vector2 direction) { /* Your movement logic */ }
+    void MoveUp() { /* Your up movement logic */ }
+}</code></pre>
+
+      <h2>Troubleshooting</h2>
+
+      <h3>QR Code Not Appearing</h3>
+      <ul>
+        <li>Ensure <code>PrestoPadManager</code> is in the scene</li>
+        <li>Check that <code>PrestoPadServerConfig</code> is assigned</li>
+        <li>Verify the HTTP server started (check Console for logs)</li>
+      </ul>
+
+      <h3>Phone Can't Connect</h3>
+      <ul>
+        <li>Ensure devices are on the same network</li>
+        <li>Check firewall settings for ports 8080/8081</li>
+        <li>Try using the displayed IP address directly in your phone's browser</li>
+        <li>Disable VPN if active</li>
+      </ul>
+
+      <h3>Windows Firewall (Unity Editor)</h3>
+      <p>When testing in the Unity Editor, you may need to add a firewall rule:</p>
+      <ol>
+        <li>Open <strong>Windows Defender Firewall with Advanced Security</strong></li>
+        <li>Click <strong>Inbound Rules</strong> → <strong>New Rule</strong></li>
+        <li>Select <strong>Program</strong> → Browse to <code>Unity.exe</code></li>
+        <li>Select <strong>Allow the connection</strong></li>
+        <li>Name: "Unity Editor - PrestoPad" → Finish</li>
+      </ol>
+
+      <h2>Next Steps</h2>
+      <ul>
+        <li>Check out the <a href="samples.html">Sample Scenes</a> for complete examples</li>
+        <li>Explore the <a href="api-reference.html">API Reference</a> for advanced features</li>
+        <li>Customize the controller UI using the Theme Editor (<code>Tools > PrestoPad > Theme Editor</code>)</li>
+      </ul>
+
+      <div class="sdk-cta">
+        <a href="api-reference.html" class="project-link">API Reference</a>
+        <a href="samples.html" class="project-link">View Samples</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Extreme Visual Media</p>
+  </footer>
+</body>
+</html>
