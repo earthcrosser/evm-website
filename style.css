@@ -280,6 +280,63 @@ footer {
   color: rgba(248, 248, 242, 0.7);
 }
 
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  margin-bottom: 1em;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: rgba(248, 248, 242, 0.7);
+  font-size: 0.85rem;
+}
+
+.footer-links a:hover {
+  color: var(--secondary);
+}
+
+/* Policy Pages */
+.policy-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.policy-page h1 {
+  margin-bottom: 0.5em;
+}
+
+.policy-page .last-updated {
+  color: rgba(248, 248, 242, 0.6);
+  font-size: 0.9rem;
+  margin-bottom: 2em;
+}
+
+.policy-page h2 {
+  font-size: 1.4rem;
+  margin-top: 2em;
+}
+
+.policy-page p,
+.policy-page ul {
+  margin-bottom: 1em;
+}
+
+.policy-page ul {
+  padding-left: 1.5em;
+}
+
+.policy-page li {
+  margin-bottom: 0.5em;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2em;
+  color: var(--secondary);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   body {
